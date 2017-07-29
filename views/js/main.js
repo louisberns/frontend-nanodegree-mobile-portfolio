@@ -303,29 +303,44 @@ function randomName() {
 }
 
 // These functions return a string of a random ingredient from each respective category of ingredients.
+var randomize = function (random, pizza, length) {
+  var random = pizza[Math.floor((Math.random() * length))];
+  return random;
+}
+
 var selectRandomMeat = function() {
-  var randomMeat = pizzaIngredients.meats[Math.floor((Math.random() * pizzaIngredients.meats.length))];
-  return randomMeat;
+  /*var randomMeat = pizzaIngredients.meats[Math.floor((Math.random() * pizzaIngredients.meats.length))];
+  return randomMeat;*/
+  var randomMeat;
+  return randomize(randomMeat, pizzaIngredients.meats, pizzaIngredients.meats.length);
 };
 
 var selectRandomNonMeat = function() {
-  var randomNonMeat = pizzaIngredients.nonMeats[Math.floor((Math.random() * pizzaIngredients.nonMeats.length))];
-  return randomNonMeat;
+  /*var randomNonMeat = pizzaIngredients.nonMeats[Math.floor((Math.random() * pizzaIngredients.nonMeats.length))];
+  return randomNonMeat;*/
+  var randomNonMeat;
+  return randomize(randomNonMeat, pizzaIngredients.nonMeats, pizzaIngredients.nonMeats.length);
 };
 
 var selectRandomCheese = function() {
-  var randomCheese = pizzaIngredients.cheeses[Math.floor((Math.random() * pizzaIngredients.cheeses.length))];
-  return randomCheese;
+  /*var randomCheese = pizzaIngredients.cheeses[Math.floor((Math.random() * pizzaIngredients.cheeses.length))];
+  return randomCheese;*/
+  var randomCheese;
+  return randomize(randomCheese, pizzaIngredients.cheeses, pizzaIngredients.cheeses.length)
 };
 
 var selectRandomSauce = function() {
-  var randomSauce = pizzaIngredients.sauces[Math.floor((Math.random() * pizzaIngredients.sauces.length))];
-  return randomSauce;
+  /*var randomSauce = pizzaIngredients.sauces[Math.floor((Math.random() * pizzaIngredients.sauces.length))];
+  return randomSauce;*/
+  var randomSauce;
+  return randomize(randomSauce, pizzaIngredients.sauces, pizzaIngredients.sauces.length);
 };
 
 var selectRandomCrust = function() {
-  var randomCrust = pizzaIngredients.crusts[Math.floor((Math.random() * pizzaIngredients.crusts.length))];
-  return randomCrust;
+  /*var randomCrust = pizzaIngredients.crusts[Math.floor((Math.random() * pizzaIngredients.crusts.length))];
+  return randomCrust;*/
+  var randomCrust;
+  return randomize(randomCrust, pizzaIngredients.crusts, pizzaIngredients.crusts.length);
 };
 
 var ingredientItemizer = function(string) {
@@ -502,9 +517,12 @@ function updatePositions() {
   window.performance.mark("mark_start_frame");
 
   var items = document.querySelectorAll('.mover');
-  for (var i = 0; i < items.length; i++) {
+  var scrollPhase = function(i) {
     var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+  }
+  for (var i = 0; i < 200; i++) {
+    scrollPhase(i);
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -531,7 +549,9 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.style.height = "100px";
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
+    elem.style.left;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
+    elem.id = i;
     document.querySelector("#movingPizzas1").appendChild(elem);
   }
   updatePositions();
