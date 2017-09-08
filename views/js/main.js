@@ -506,14 +506,14 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  var items = document.querySelectorAll('.mover');
+  /*var items = document.querySelectorAll('.mover');
   for (var i = 0; i < 200; i++) {
     var itemLeft = items[i].style.left;
     var itemBasicLeft = items[i].basicLeft + 100;
     var mover = Math.sin((document.body.scrollTop / 1250) + (i % 5));
-    /*itemLeft = itemBasicLeft * mover + 'px';*/
+    itemLeft = itemBasicLeft * mover + 'px';
     items[i].style.left = itemBasicLeft * mover + 'px';
-  }
+  }*/
 
   /*var items = document.querySelectorAll('.mover');
   var scrollPhase = function(i) {
@@ -534,24 +534,115 @@ function updatePositions() {
   }
 }
 
+var controler = true;
+var c = 0;
+
+function movingPositionsPizzas() {
+  console.log('called')
+  pizzaItems.forEach(function (pizza) {
+    var id = pizza.id;
+    var idDOM = pizza.idDOM;
+    var i = Math.sin(c * 100 / 256) + 1;
+
+    if (id % 2 === 0) {
+      pizza.type = 0;
+      pizza.transform(idDOM, pizza.type, i)
+    } else {
+      pizza.type = 1;
+      pizza.transform(idDOM, pizza.type, i)
+    }
+
+    if (controler) {
+      c++;
+      if (c === 10) {
+        controler = false;
+      }
+    } else {
+      c--;
+      if (c === 0) {
+        controler = true;
+      }
+    }
+  });
+}
+
+var pizzaItems = [];
+
+/*Moving directions calculated in movingPositionsPizzas()*/
+
 // runs updatePositions on scroll
-window.addEventListener('scroll', updatePositions);
+window.addEventListener('scroll', movingPositionsPizzas);
+
+
+/**Variables to append pizzas to the page
+  *To make easier to the browser process the information.
+  */
+var Pizza = function(id) {
+  this.id = id;
+  this.idDOM = "#" + id.toString()
+  this.path = "<div class='pizza-box' id='" + id + "' style='transition: transform 1s'><img class='mover' src='images/pizza.png' alt='Background Pizzas'/></div>";
+  this.moverCount = 0;
+}
+
+Pizza.prototype.transform = function (obj, type, mover) {
+  var DOM = obj.toString();
+  var query = $(DOM);
+  var typeMode = type;
+  var right = mover;
+  var left = "-" + mover;
+  var moverRight = "translateX(" + right + "em)";
+  var moverLeft = "translateX(" + left + "em)";
+  var moverDirection = "";
+
+  /*console.log ("Variables || DOM: " + DOM + "   - query: " + query + "  - typeMode: " + typeMode + "  - mover: " + mover + "   - moverDirection: " + moverDirection);
+  console.log(query);*/
+
+  if (controler) {
+    moverDirection = moverRight;
+  } else {
+    moverDirection = moverLeft;
+  }
+
+  switch (typeMode) {
+    case 0:
+      query.css("transform", moverDirection);
+      break;
+    case 1:
+      query.css("transform", moverDirection);
+      break;
+    default:
+
+  }
+}
+
+function createPizzasMove () {
+  for (var i = 1; i < 30; i++) {
+
+    var pizzasHTML = new Pizza(i);
+    var iPizza = i.toString();
+    var items = $("#movingPizzas1");
+
+    items.append(pizzasHTML.path);
+    pizzaItems.push(pizzasHTML);
+  }
+}
+
+createPizzasMove();
+
 
 // Generates the sliding pizzas when the page loads.
-document.addEventListener('DOMContentLoaded', function() {
+/*document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
   for (var i = 0; i < 200; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
-    elem.style.height = "100px";
-    elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
     elem.style.left = Math.sin((document.body.scrollTop / 1250) + (i % 5));
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     elem.id = i;
     document.querySelector("#movingPizzas1").appendChild(elem);
   }
-  /*updatePositions();*/
-});
+  /*updatePositions();/
+});*/

@@ -29,11 +29,65 @@ form {
   font-weight: 800;
 }
 
-.mover {
+/**Background Moving Pizzas
+  *Moving pizzas on Scroll
+  */
+
+.container-moving {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   position: fixed;
-  width: 256px;
+  z-index: -2;
+  justify-content: space-between;
+}
+
+.pizza-box {
+  position: relative;
+  width: 73px;
+  height: 100px;
   z-index: -1;
   will-change: transform;
+  margin: 4em;
+  transition: tranform 5s;
+  transition-timing-function: ease-out;
+}
+
+.mover {
+  width: 100%;
+}
+
+#1,
+#2,
+#3,
+#4,
+#5,
+#6,
+#7,
+#8,
+#9,
+#10,
+#11,
+#12,
+#13,
+#14,
+#15,
+#16,
+#17,
+#18,
+#19,
+#20,
+#21,
+#22,
+#23,
+#24,
+#25,
+#26,
+#27,
+#28,
+#29,
+#30 {
+  transform: translateX(0em);
 }
 
 .randomPizzaContainer {

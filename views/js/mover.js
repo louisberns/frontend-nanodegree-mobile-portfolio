@@ -1,4 +1,4 @@
-// Iterator for number of times the pizzas in the background have scrolled.
+/*// Iterator for number of times the pizzas in the background have scrolled.
 // Used by updatePositions() to decide when to log the average time per frame
 var frame = 0;
 
@@ -55,3 +55,4 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   updatePositions();
 });
+*/
