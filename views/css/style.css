@@ -48,7 +48,7 @@ form {
   height: 100px;
   z-index: -1;
   will-change: transform;
-  margin: 4em;
+  margin: 4em 6em;
   transition: tranform 5s;
   transition-timing-function: ease-out;
 }

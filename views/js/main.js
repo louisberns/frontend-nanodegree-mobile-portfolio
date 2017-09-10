@@ -542,14 +542,15 @@ function movingPositionsPizzas() {
   pizzaItems.forEach(function (pizza) {
     var id = pizza.id;
     var idDOM = pizza.idDOM;
-    var i = Math.sin(c * 100 / 256) + 1;
+    var i = Math.sin(c * 100 / 256) + 0.5;
+    /*var i = ($('body').scrollTop() + document.documentElement.scrollTop) / (document.documentElement.scrollHeight - document.documentElement.clientHeight);*/
 
     if (id % 2 === 0) {
       pizza.type = 0;
-      pizza.transform(idDOM, pizza.type, i)
+      pizza.transform(idDOM, pizza.type, i);
     } else {
       pizza.type = 1;
-      pizza.transform(idDOM, pizza.type, i)
+      pizza.transform(idDOM, pizza.type, i);
     }
 
     if (controler) {
@@ -569,9 +570,15 @@ function movingPositionsPizzas() {
 var pizzaItems = [];
 
 /*Moving directions calculated in movingPositionsPizzas()*/
-
+var timer;
 // runs updatePositions on scroll
-window.addEventListener('scroll', movingPositionsPizzas);
+$(window).scroll(function(){
+  if (timer) {
+    window.clearTimeout(timer);
+  }
+  timer = window.setTimeout (movingPositionsPizzas, 300)
+});
+/*window.addEventListener('scroll', movingPositionsPizzas);*/
 
 
 /**Variables to append pizzas to the page
