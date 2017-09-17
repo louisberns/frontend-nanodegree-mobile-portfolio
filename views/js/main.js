@@ -542,7 +542,7 @@ function movingPositionsPizzas() {
   pizzaItems.forEach(function (pizza) {
     var id = pizza.id;
     var idDOM = pizza.idDOM;
-    var i = Math.sin(c * 100 / 256) + 0.5;
+    var i = Math.sin(c * 100 / 256) + 1;
     /*var i = ($('body').scrollTop() + document.documentElement.scrollTop) / (document.documentElement.scrollHeight - document.documentElement.clientHeight);*/
 
     if (id % 2 === 0) {
