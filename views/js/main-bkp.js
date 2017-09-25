@@ -1,23 +1,3 @@
-/*
-Welcome to the 60fps project! Your goal is to make Cam's Pizzeria website run
-jank-free at 60 frames per second.
-
-There are two major issues in this code that lead to sub-60fps performance. Can
-you spot and fix both?
-
-
-Built into the code, you'll find a few instances of the User Timing API
-(window.performance), which will be console.log()ing frame rate data into the
-browser console. To learn more about User Timing API, check out:
-http://www.html5rocks.com/en/tutorials/webperformance/usertiming/
-
-Creator:
-Cameron Pittman, Udacity Course Developer
-cameron *at* udacity *dot* com
-*/
-
-// As you may have realized, this website randomly generates pizzas.
-// Here are arrays of all possible pizza ingredients.
 var pizzaIngredients = {};
 pizzaIngredients.meats = [
   "Pepperoni",
@@ -416,7 +396,7 @@ var pizzaElementGenerator = function(i) {
 // resizePizzas(size) is called when the slider in the "Our Pizzas" section of the website moves.
 var resizePizzas = function(size) {
   window.performance.mark("mark_start_resize");   // User Timing API function
-  var queryPizzaSize = document.querySelector("#pizzaSize").innerHTML
+  var queryPizzaSize = document.querySelector("#pizzaSize").innerHTML;
   // Changes the value for the size of the pizza above the slider
   function changeSliderLabel(size) {
     switch(size) {
@@ -518,7 +498,7 @@ var c = 0;
 
 // Define directions and distance for move the pizzas
 function movingPositionsPizzas() {
-  console.log("called")
+  console.log("called");
   pizzaItems.forEach(function (pizza) {
     var id = pizza.id;
     var idDOM = pizza.idDOM;
@@ -554,7 +534,7 @@ var timer;
 $(window).scroll(function(){
   if (timer) {
     window.clearTimeout(timer);
-  }
+  };
   timer = window.setTimeout (movingPositionsPizzas, 300)
 });
 
@@ -564,10 +544,10 @@ $(window).scroll(function(){
   */
 var Pizza = function(id) {
   this.id = id;
-  this.idDOM = "#" + id.toString()
+  this.idDOM = "#" + id.toString();
   this.path = "<div class='pizza-box' id='" + id + "' style='transition: transform 1s'><img class='mover' src='images/pizza.png' alt='Background Pizzas'/></div>";
   this.moverCount = 0;
-}
+};
 
 /** Mover prototype function
   * Used to move pizzas on background
@@ -598,7 +578,7 @@ Pizza.prototype.transform = function (obj, type, mover) {
     default:
 
   }
-}
+};
 
 /** Create pizzas for background
   * Append items to appear on the page
@@ -607,7 +587,6 @@ function createPizzasMove () {
   for (var i = 1; i < 30; i++) {
 
     var pizzasHTML = new Pizza(i);
-    var iPizza = i.toString();
     var items = $("#movingPizzas1");
 
     items.append(pizzasHTML.path);
