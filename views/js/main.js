@@ -284,8 +284,8 @@ function randomName() {
 
 // These functions return a string of a random ingredient from each respective category of ingredients.
 var randomize = function (random, pizza, length) {
-  var random = pizza[Math.floor((Math.random() * length))];
-  return random;
+  var randomWork = pizza[Math.floor((Math.random() * length))];
+  return randomWork;
 };
 
 var selectRandomMeat = function() {
