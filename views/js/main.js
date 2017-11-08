@@ -492,101 +492,49 @@ function updatePositions() {
   }
 }
 
-// Variables to help control movingPositionsPizzas function
-var controler = true;
-var c = 0;
-
-// Define directions and distance for move the pizzas
-function movingPositionsPizzas() {
-  console.log("called");
-  pizzaItems.forEach(function (pizza) {
-    var id = pizza.id;
-    var idDOM = pizza.idDOM;
-    var i = Math.sin(c * 100 / 256) + 1;
-
-    if (id % 2 === 0) {
-      pizza.type = 0;
-      pizza.transform(idDOM, pizza.type, i);
-    } else {
-      pizza.type = 1;
-      pizza.transform(idDOM, pizza.type, i);
-    }
-
-    if (controler) {
-      c++;
-      if (c === 10) {
-        controler = false;
-      }
-    } else {
-      c--;
-      if (c === 0) {
-        controler = true;
-      }
-    }
-  });
-}
-
+// Variables to help control pizzasItems animation
+var $win = $(window);
 var pizzaItems = [];
 
-// Variable timer, to delay pizza movements on scroll
-var timer;
-// runs updatePositions on scroll
-$(window).scroll(function(){
-  if (timer) {
-    window.clearTimeout(timer);
-  }
-  timer = window.setTimeout (movingPositionsPizzas, 300);
-});
+//Animate on scroll
+$win.scroll(function () {
+  var $pizza = $(".pizza-box");
+  var scroll = $win.scrollTop() / 300;
+  var $translateRight = "translateX(" + scroll + "em)";
+  var $translateLeft = "translateX(-" + scroll + "em)";
 
+  /*$pizza.css("transform", $translateX);*/
+
+  for (var i = 1; i < 200; i++) {
+    var item = $("#" + i);
+    if (i % 2 === 0) {
+      item.css("transform", $translateRight);
+    } else {
+      item.css("transform", $translateLeft);
+    }
+  }
+})
 
 /** Pizza crator, using 'new' to create a new pizza item
   * To make easier to the browser process the information.
   */
-var Pizza = function(id) {
+var Pizza = function(id, left, top) {
   this.id = id;
   this.idDOM = "#" + id.toString();
-  this.path = "<div class='pizza-box' id='" + id + "' style='transition: transform 1s'><img class='mover' src='images/pizza.png' alt='Background Pizzas'/></div>";
-  this.moverCount = 0;
-};
-
-/** Mover prototype function
-  * Used to move pizzas on background
-  */
-Pizza.prototype.transform = function (obj, type, mover) {
-  var DOM = obj.toString();
-  var query = $(DOM);
-  var typeMode = type;
-  var right = mover;
-  var left = "-" + mover;
-  var moverRight = "translateX(" + right + "em)";
-  var moverLeft = "translateX(" + left + "em)";
-  var moverDirection = "";
-
-  if (controler) {
-    moverDirection = moverRight;
-  } else {
-    moverDirection = moverLeft;
-  }
-
-  switch (typeMode) {
-    case 0:
-      query.css("transform", moverDirection);
-      break;
-    case 1:
-      query.css("transform", moverDirection);
-      break;
-    default:
-
-  }
+  this.path = "<div class='pizza-box' id='" + id + "'style='left:" + left + "px; " + "top:" + top + "px;'><img class='mover' src='images/pizza.png' alt='Background Pizzas'/></div>";
 };
 
 /** Create pizzas for background
   * Append items to appear on the page
   */
 function createPizzasMove () {
-  for (var i = 1; i < 30; i++) {
+  var cols = 8;
+  var s = 256;
+  for (var i = 1; i < 200; i++) {
+    var left = (i % cols) * s - 1000;
+    var top = (Math.floor(i / cols) * s) + 'px';
 
-    var pizzasHTML = new Pizza(i);
+    var pizzasHTML = new Pizza(i, left, top);
     var items = $("#movingPizzas1");
 
     items.append(pizzasHTML.path);
