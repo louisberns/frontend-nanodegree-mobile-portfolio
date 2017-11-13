@@ -21,4 +21,4 @@ Chrome devtools Performance tools.
 > <br>
 > *Desktop - 96/100*
 > <br>
-> *Mobile - 87/100*
+> *Mobile - 94/100*
