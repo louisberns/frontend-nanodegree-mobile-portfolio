@@ -44,11 +44,11 @@ form {
 
 .pizza-box {
   position: relative;
-  width: 73px;
+  width: 73.333px;
   height: 100px;
   z-index: -1;
   will-change: transform;
-  margin: 1em 3em;
+  margin: 1vw;
 }
 
 .mover {

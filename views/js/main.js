@@ -494,31 +494,41 @@ function updatePositions() {
 
 // Variables to help control pizzasItems animation
 var $win = $(window);
+var $winWidht = $win.width();
+var $winHeight = $win.height();
 var pizzaItems = [];
+var $pizza = $(".pizza-box");
 
-//Animate on scroll
-$win.scroll(function () {
-  var $pizza = $(".pizza-box");
-  var scroll = $win.scrollTop() / 300;
-  var $translateRight = "translateX(" + scroll + "em)";
-  var $translateLeft = "translateX(-" + scroll + "em)";
+//Update pizzas positions
+var updatePizzas = function () {
+  var len = pizzaItems.length;
 
-  /*$pizza.css("transform", $translateX);*/
-
-  for (var i = 1; i < 200; i++) {
+  for (var i = 1; i < len; i++) {
     var item = $("#" + i);
-    if (i % 2 === 0) {
+    var scroll = $win.scrollTop();
+    var phase = Math.sin((scroll / 1250) + (i % 5));
+    var $translateRight = "translateX(" + 100 * phase + "px)";
+    var $translateLeft = "translateX(-" + 100 * phase + "px)";
+
+    $pizza.css("transform", $translateLeft);
+
+    if (i % 2 == 0) {
       item.css("transform", $translateRight);
     } else {
       item.css("transform", $translateLeft);
     }
   }
-})
+}
+
+//Animate on scroll
+$win.scroll(function () {
+  updatePizzas();
+});
 
 /** Pizza crator, using 'new' to create a new pizza item
   * To make easier to the browser process the information.
   */
-var Pizza = function(id, left, top) {
+var Pizza = function(id, left, top, move) {
   this.id = id;
   this.idDOM = "#" + id.toString();
   this.path = "<div class='pizza-box' id='" + id + "'style='left:" + left + "px; " + "top:" + top + "px;'><img class='mover' src='images/pizza.png' alt='Background Pizzas'/></div>";
@@ -530,13 +540,13 @@ var Pizza = function(id, left, top) {
 function createPizzasMove () {
   var cols = 8;
   var s = 256;
-  for (var i = 1; i < 200; i++) {
+  var n = $winHeight / 8;
+  for (var i = 1; i < n; i++) {
     var left = (i % cols) * s - 1000;
-    var top = (Math.floor(i / cols) * s) + 'px';
+    var top = (Math.floor(i / cols) * s);
 
     var pizzasHTML = new Pizza(i, left, top);
     var items = $("#movingPizzas1");
-
     items.append(pizzasHTML.path);
     pizzaItems.push(pizzasHTML);
   }
