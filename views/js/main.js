@@ -512,13 +512,13 @@ var updatePizzas = function () {
 
     $pizza.css("transform", $translateLeft);
 
-    if (i % 2 == 0) {
+    if (i % 2 === 0) {
       item.css("transform", $translateRight);
     } else {
       item.css("transform", $translateLeft);
     }
   }
-}
+};
 
 //Animate on scroll
 $win.scroll(function () {
