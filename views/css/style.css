@@ -33,26 +33,13 @@ form {
   *Moving pizzas on Scroll
   */
 
-.container-moving {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+.mover {
   position: fixed;
-  z-index: -2;
-  justify-content: space-between;
-}
-
-.pizza-box {
-  position: relative;
-  width: 73.333px;
-  height: 100px;
+  width: 256px;
   z-index: -1;
   will-change: transform;
-  margin: 1vw;
-}
-
-.mover {
-  width: 100%;
+  height: 100px;
+  width: 73.333px;
 }
 
 .randomPizzaContainer {

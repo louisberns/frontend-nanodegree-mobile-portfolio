@@ -478,10 +478,37 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
   console.log("Average scripting time to generate last 10 frames: " + sum / 10 + "ms");
 }
 
+// The following code for sliding background pizzas was pulled from Ilya's demo found at:
+// https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
+
+function applyOnBackground(item) {
+  var $i = item;
+  var scrollTop = (document.documentElement.scrollTop /1250) || (document.body.scrollTop / 1250);
+
+
+  for (var i = 0; i < $i.length; i++) {
+    var quo = i % 5;
+    var phase = Math.sin((scrollTop) + quo);
+    var c = $i[i].basicLeft + 100 * phase + 'px';
+    $i[i].style.transform = "translateX(" + c +")";
+  }
+}
+
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
+
+  var items = document.querySelectorAll('.mover');
+  var $i = items;
+  applyOnBackground($i);
+  /*for (var i = 0; i < items.length; i++) {
+    // document.body.scrollTop is no longer supported in Chrome.
+    var $i = items[i];
+
+    applyOnBackground($i, i);
+  }*/
+
   // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
   window.performance.mark("mark_end_frame");
@@ -492,64 +519,22 @@ function updatePositions() {
   }
 }
 
-// Variables to help control pizzasItems animation
-var $win = $(window);
-var $winWidht = $win.width();
-var $winHeight = $win.height();
-var pizzaItems = [];
-var $pizza = $(".pizza-box");
+// runs updatePositions on scroll
+window.addEventListener('scroll', updatePositions);
 
-//Update pizzas positions
-var updatePizzas = function () {
-  var len = pizzaItems.length;
-
-  for (var i = 1; i < len; i++) {
-    var item = $("#" + i);
-    var scroll = $win.scrollTop();
-    var phase = Math.sin((scroll / 1250) + (i % 5));
-    var $translateRight = "translateX(" + 100 * phase + "px)";
-    var $translateLeft = "translateX(-" + 100 * phase + "px)";
-
-    $pizza.css("transform", $translateLeft);
-
-    if (i % 2 === 0) {
-      item.css("transform", $translateRight);
-    } else {
-      item.css("transform", $translateLeft);
-    }
-  }
-};
-
-//Animate on scroll
-$win.scroll(function () {
-  updatePizzas();
-});
-
-/** Pizza crator, using 'new' to create a new pizza item
-  * To make easier to the browser process the information.
-  */
-var Pizza = function(id, left, top, move) {
-  this.id = id;
-  this.idDOM = "#" + id.toString();
-  this.path = "<div class='pizza-box' id='" + id + "'style='left:" + left + "px; " + "top:" + top + "px;'><img class='mover' src='images/pizza.png' alt='Background Pizzas'/></div>";
-};
-
-/** Create pizzas for background
-  * Append items to appear on the page
-  */
-function createPizzasMove () {
+// Generates the sliding pizzas when the page loads.
+function generateBackground () {
   var cols = 8;
   var s = 256;
-  var n = $winHeight / 8;
-  for (var i = 1; i < n; i++) {
-    var left = (i % cols) * s - 1000;
-    var top = (Math.floor(i / cols) * s);
-
-    var pizzasHTML = new Pizza(i, left, top);
-    var items = $("#movingPizzas1");
-    items.append(pizzasHTML.path);
-    pizzaItems.push(pizzasHTML);
+  for (var i = 0; i < 200; i++) {
+    var elem = document.createElement('img');
+    elem.className = 'mover';
+    elem.src = "images/pizza.png";
+    elem.basicLeft = (i % cols) * s;
+    elem.style.top = (Math.floor(i / cols) * s) + 'px';
+    document.getElementById("movingPizzas1").appendChild(elem);
   }
-}
+  updatePositions();
+};
 
-createPizzasMove();
+generateBackground();
