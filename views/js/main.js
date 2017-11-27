@@ -526,7 +526,8 @@ window.addEventListener('scroll', updatePositions);
 function generateBackground () {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 200; i++) {
+  var w = window.innerHeight / 8;
+  for (var i = 0; i < w; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
