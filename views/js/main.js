@@ -535,6 +535,6 @@ function generateBackground () {
     document.getElementById("movingPizzas1").appendChild(elem);
   }
   updatePositions();
-};
+}
 
 generateBackground();
